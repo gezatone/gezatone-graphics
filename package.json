@@ -1,7 +1,7 @@
 {
-  "name": "snappykit-graphics",
+  "name": "gezatone-graphics",
   "version": "1.0.0",
-  "description": "Graphics for snappykit app",
+  "description": "Graphics for gezatone app",
   "main": "index.js",
   "scripts": {
     "svg": "rm -rf build && npm run svgo && node minify.js && npm run sprite",
@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/snappykit/snappykit-graphics.git"
+    "url": "git+https://github.com/gezatone/gezatone-graphics.git"
   },
   "keywords": [
     "graphics",
@@ -25,9 +25,9 @@
   "author": "alanev <e@alanev.ru>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/snappykit/snappykit-graphics/issues"
+    "url": "https://github.com/gezatone/gezatone-graphics/issues"
   },
-  "homepage": "https://github.com/snappykit/snappykit-graphics#readme",
+  "homepage": "https://github.com/gezatone/gezatone-graphics#readme",
   "devDependencies": {
     "ava": "^0.16.0",
     "cheerio": "^0.20.0",

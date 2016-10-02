@@ -779,23 +779,58 @@
 /* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var matches = __webpack_require__(9)
+	/**
+	 * Module Dependencies
+	 */
 
-	module.exports = function (element, selector, checkYoSelf) {
-	  var parent = checkYoSelf ? element : element.parentNode
+	try {
+	  var matches = __webpack_require__(9)
+	} catch (err) {
+	  var matches = __webpack_require__(9)
+	}
 
-	  while (parent && parent !== document) {
-	    if (matches(parent, selector)) return parent;
-	    parent = parent.parentNode
+	/**
+	 * Export `closest`
+	 */
+
+	module.exports = closest
+
+	/**
+	 * Closest
+	 *
+	 * @param {Element} el
+	 * @param {String} selector
+	 * @param {Element} scope (optional)
+	 */
+
+	function closest (el, selector, scope) {
+	  scope = scope || document.documentElement;
+
+	  // walk up the dom
+	  while (el && el !== scope) {
+	    if (matches(el, selector)) return el;
+	    el = el.parentNode;
 	  }
+
+	  // check scope for match
+	  return matches(el, selector) ? el : null;
 	}
 
 
 /***/ },
 /* 9 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	
+	/**
+	 * Module dependencies.
+	 */
+
+	try {
+	  var query = __webpack_require__(10);
+	} catch (err) {
+	  var query = __webpack_require__(10);
+	}
+
 	/**
 	 * Element prototype.
 	 */
@@ -806,7 +841,7 @@
 	 * Vendor function.
 	 */
 
-	var vendor = proto.matchesSelector
+	var vendor = proto.matches
 	  || proto.webkitMatchesSelector
 	  || proto.mozMatchesSelector
 	  || proto.msMatchesSelector
@@ -828,13 +863,42 @@
 	 */
 
 	function match(el, selector) {
+	  if (!el || el.nodeType !== 1) return false;
 	  if (vendor) return vendor.call(el, selector);
-	  var nodes = el.parentNode.querySelectorAll(selector);
+	  var nodes = query.all(selector, el.parentNode);
 	  for (var i = 0; i < nodes.length; ++i) {
 	    if (nodes[i] == el) return true;
 	  }
 	  return false;
 	}
+
+
+/***/ },
+/* 10 */
+/***/ function(module, exports) {
+
+	function one(selector, el) {
+	  return el.querySelector(selector);
+	}
+
+	exports = module.exports = function(selector, el){
+	  el = el || document;
+	  return one(selector, el);
+	};
+
+	exports.all = function(selector, el){
+	  el = el || document;
+	  return el.querySelectorAll(selector);
+	};
+
+	exports.engine = function(obj){
+	  if (!obj.one) throw new Error('.one callback required');
+	  if (!obj.all) throw new Error('.all callback required');
+	  one = obj.one;
+	  exports.all = obj.all;
+	  return exports;
+	};
+
 
 /***/ }
 /******/ ]);
