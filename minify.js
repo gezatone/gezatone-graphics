@@ -8,17 +8,14 @@ glob('build/icons/*.svg', (err, paths) => {
 		readFile(path, (err, data) => {
 			const $ = cheerio.load(data)
 			const svg = $('svg')
-			const width = svg.attr('width')
-			const height = svg.attr('height')
+			const viewbox = svg.attr('viewbox')
 			const { name } = parse(path)
 
 			svg
-				.attr(
-					'viewBox',
-					`0 0 ${width} ${height}`
-				)
+				.attr('viewBox', viewbox)
 				.attr('id', `icon--${name}`)
 				.attr('class', `icon icon--${name}`)
+				.removeAttr('viewbox')
 				.removeAttr('width')
 				.removeAttr('height')
 				.removeAttr('xmlns')
